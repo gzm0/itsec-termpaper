@@ -1,0 +1,9 @@
+auto/
+*.aux
+*.dvi
+*.log
+*.nav
+*.out
+*.snm
+*~
+*.toc
