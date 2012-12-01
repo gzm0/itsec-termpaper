@@ -1,4 +1,4 @@
-\documentclass[a4paper, twocolumns]{scrartcl}
+\documentclass[a4paper, twocolumn]{scrartcl}
 
 \title{DNSKEY Management}
 \author{Julien Perrochet \and Tobias Schlatter}
@@ -8,8 +8,27 @@
 
 \maketitle
 
-\nocite{*}
+\section{Introduction}
+%% TODO add some blah about management and penetration.
 
+In the following, every necessary operation for key management in
+DNSSEC is described as a reminder to the reader.
+
+\paragraph{Enabling DNSSEC} When enabling DNSSEC for a zone, the
+parent zone has to establish and sign a DS record with the newly
+created public-key.
+
+\paragraph{Key Rollover} RFC4641 \cite{RFC4641} suggests that the DNSKEY
+records for a zone should be changed somewhere between once every week
+up to once every month. While the detailed rollover procedure is
+irrelevant here, it is important to know, that the parent zone has to
+update the its DS record.
+
+\paragraph{Disabling DNSSEC} An operator might choose to discontinue
+DNSSEC for a zone. The DS records (or other means of signing DNSKEYs
+as we will see later) need to be removed.
+
+\nocite{*}
 \bibliographystyle{abbrv}
 \bibliography{dnssec}
 
