@@ -1,6 +1,7 @@
 \documentclass[a4paper]{scrartcl}
 
 \usepackage{graphicx}
+\usepackage{url}
 
 %% Limit: 40000 chars
 %% check with `detex paper.tex | wc -c`
@@ -47,7 +48,17 @@ This section shall expose the current deployment status of DNSSEC.
 
 In figure~\ref{fig:dnssec-growth} you can see the development of
 deployed, production DNSSEC zones (for the heuristics applied to
-determine a production zone, see \cite{secspider, Osterweil09}).
+determine a production zone, see \cite{secspider, Osterweil09}). We
+can see that DNSSEC is gradually being deployed.
+
+Contrary to the state at writing of \cite{Osterweil09}, the DNS
+root-zone is signed since July 15, 2010 \cite{root-dnssec} and hence
+serves as the global trust anchor. However, as of this writing,
+data\footnote{\url{http://secspider.cs.ucla.edu/islands.html}}
+gathered by \cite{secspider} suggests that more than half of the
+deployed DNSSEC zones which are verifyable (i.e. are likely not to
+have a spoofed key, see \cite{Osterweil09} for details), do not yet
+have a fully linked certificate chain up to the root zone.
 
 \begin{figure}
   \includegraphics[width=\linewidth]{dnssec-growth}
@@ -58,9 +69,7 @@ determine a production zone, see \cite{secspider, Osterweil09}).
 
 \subsection{Trust Anchors}
 
-Contrary to the state at writing of \cite{Osterweil09}, the DNS
-root-zone is signed since July 15, 2010 \cite{root-dnssec} and hence
-serves as the global trust anchor.
+
 
 
 \section{Operations\wbjp}
