@@ -1,4 +1,6 @@
-\documentclass[a4paper, twocolumn]{scrartcl}
+\documentclass[a4paper]{scrartcl}
+
+\usepackage{graphicx}
 
 %% Limit: 40000 chars
 %% check with `detex paper.tex | wc -c`
@@ -6,6 +8,12 @@
 \title{DNSKEY Management}
 \author{Julien Perrochet \and Tobias Schlatter}
 \date{December 12, 2012}
+
+\graphicspath{{../figures/}}
+
+\newcommand{\wbjp}{\protect\footnote{Written by Julien Perrochet}}
+\newcommand{\wbts}{\protect\footnote{Written by Tobias Schlatter}}
+
 
 \begin{document}
 
@@ -31,18 +39,40 @@ update the its DS record.
 DNSSEC for a zone. The DS records (or other means of signing DNSKEYs
 as we will see later) need to be removed.
 
-\section{DNSSEC Deployment}
-No root-zone signing, etc.
+\section{DNSSEC Deployment\wbts}
+
+This section shall expose the current deployment status of DNSSEC.
+
 \subsection{Penetration}
+
+In figure~\ref{fig:dnssec-growth} you can see the development of
+deployed, production DNSSEC zones (for the heuristics applied to
+determine a production zone, see \cite{secspider, Osterweil09}).
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{dnssec-growth}
+  \caption{Number of deployed DNSSEC zones by
+    SecSpider \cite{secspider}}
+  \label{fig:dnssec-growth}
+\end{figure}
+
 \subsection{Trust Anchors}
 
-\section{Operations}
+Contrary to the state at writing of \cite{Osterweil09}, the DNS
+root-zone is signed since July 15, 2010 \cite{root-dnssec} and hence
+serves as the global trust anchor.
+
+
+\section{Operations\wbjp}
 \subsection{3Rs}
 \subsection{Single admin}
 \subsection{Multi admin}
 \subsection{Disabling}
 
-\section{Case-Study: Switzerland}
+\section{Case-Study: Switzerland (\texttt{ch.} Zone)\wbts}
+According to a query on \cite{secspider}, the \verb|ch.| TLD zone is signed and
+fully veryfiable from the root zone anchor. The validity period of a
+zone signing key is 37 days \cite{switch10}.
 
 \nocite{*}
 \bibliographystyle{abbrv}
