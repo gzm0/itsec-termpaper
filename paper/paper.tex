@@ -134,9 +134,21 @@ add trusted keys manually.
 
 \section{Case-Study: Switzerland (\texttt{ch.} Zone)\wbts}
 \label{sec:case-study}
-According to a query on \cite{secspider}, the \verb|ch.| TLD zone is signed and
-fully veryfiable from the root zone anchor. The validity period of a
-zone signing key is 37 days \cite{switch10}.
+
+\paragraph{Certificate Chain} According to a query on
+\cite{secspider}, the \verb|ch.| TLD zone is signed and fully
+veryfiable from the root zone anchor on downwards. The certificate
+chain can hence fully be established and no separate TARs are
+required.
+
+\paragraph{Rollover} The validity period of a zone signing key (for
+\verb|ch.|) is 37 days \cite{switch10}. For child zones,  DNSSEC and
+DNSKEY entries can be enabled and disabled through SWITCH's
+web-interface which is able to pull the keys automatically from the
+authoritative DNS servers. It is therefore relatively simple to enable
+DNSSEC for a \verb|x.ch.| zone, but using the web-interface might be
+cumbersome when having to deal with rollovers for a large number of
+domains.
 
 \nocite{*}
 \bibliographystyle{abbrv}
