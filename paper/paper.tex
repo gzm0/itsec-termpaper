@@ -101,8 +101,8 @@ root-zone \cite{itar}.
 The Internet Software Consortium (ISC) still runs an inline TAR
 \cite{iscDlv}, using the DNSSEC Lookaside Validation standard
 \cite{RFC5074}. When a resolver needs to check the key of a zone
-\verb|x| with this TAR, it makes a DNS request of type DLV to
-\url{x.dlv.isc.org}. If it succeeds, the DLV record contains the
+\verb|<X>| with this TAR, it makes a DNS request of type DLV to 
+\url{<X>.dlv.isc.org}. If it succeeds, the DLV record contains the
 signature for the (hopefully matching) DNSKEY. The ISC inline TAR
 requires manual addition of keys to the repository.
 
@@ -128,6 +128,7 @@ add trusted keys manually.
 
 \section{Operations\wbjp}
 \subsection{3Rs}
+%% Talk about EPP or push burden to Case-Study
 \subsection{Single admin}
 \subsection{Multi admin}
 \subsection{Disabling}
@@ -154,7 +155,7 @@ web-interface which is able to pull the keys automatically from the
 authoritative DNS servers. Partners (as Registrars are called in
 Switzerland) may also use EPP for key rollover.
 
-Therefore, it is relatively simple to enable DNSSEC for a \verb|x.ch.| 
+Therefore, it is relatively simple to enable DNSSEC for a \verb|<X>.ch.| 
 zone. While using the web-interface is certainly cumbersome when
 having to deal with rollovers for a large number of domains, any major
 provider may become a SWITCH Partner and can then switch over to EPP
