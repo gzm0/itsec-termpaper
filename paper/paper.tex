@@ -166,23 +166,23 @@ This section covers the issues and quirks related to the management of DNSSEC.
 Regarding the management of the Internet namespace, three entities can generally be considered:
 
 \begin{itemize}
-\item the registry;
-\item the registrant;
-\item the registrar.
+\item a registry;
+\item a registrant;
+\item a registrar.
 \end{itemize}
 
-The registries are the entities serving the records for a zone. For example, Switch is the registry for the \verb|ch.| zone. Registrants, on their side, are the entities willing to obtain a certain domain: the registrant of \verb|epfl.ch| is the school in itself, for example.
+The registries are the entities serving the records for a zone. For example, Switch is the registry for the \verb|ch.| zone. Registrants, on their side, are the entities willing to obtain a certain domain: the registrant of \verb|epfl.ch| is the school in itself (its IT-department to be precise \footnote{As a \emph{whois} query on the epfl.ch domain will show you.}), for example.
 
 These two entities can eventually be linked by the third one, the registrar: this is where registrants will obtain the actual registration service, namely, the linking between a domain name and an IP address.
 
-In Switzerland, for example, Switch plays both the roles of the registry and a registrar: other registrars also exist but one can purchase a domain name directly from Switch. Registries will generally delegate part or whole of the namespace registration managing to registrars.
+In Switzerland, for example, Switch plays both the roles of the registry and a registrar: other registrars also exist but one can purchase a domain name directly from Switch. Registries will generally delegate part or whole of the namespace registration managing to registrars\footnote{For example, one can also buy a .ch domain from \url{http://gandi.net}}
 
-Registrants are also free to play the registry and registrant roles for their own sub-domains: groups, laboratories and associations within EPFL will obtain an \verb|epfl.ch| sub-domain, like the LACAL and it's \verb|lacal.epfl.ch| subdomain, for example.
+Registrants are also free to play the registry and registrar roles for their own sub-domains: groups, laboratories and associations within EPFL may apply for an \verb|epfl.ch| sub-domain, like the LACAL and it's \verb|lacal.epfl.ch| subdomain, for example.
 
-The entities behind the three R's are the exact same whether DNSSEC is used or not, but DNSSEC modifies the relations among them: e.g., DNSKEY updates will now also require communication between the three R's, even if no practical information like IP addresses or billing data actually changed.
+The entities behind the three R's are the exact same whether DNSSEC is used or not, but DNSSEC modifies the relations among them: e.g., DNSKEY updates will now also require communication between the three R's, even if no practical information like IP addresses or billing data was actually updated.
 
 \subsection{Signing a zone}
-Whenever an entity wishes to sign its zone, it should ideally turn to its already signed parent zone, in order to create a continuous thrust chain.
+Whenever an entity wishes to sign its zone, it should ideally turn to its already signed parent zone, in order to create a continuous trust chain.
 Said parent should then serve a DS record containing the child zone's key signature.
 
 Signing new zones will have different administrative implications depending on whether the parent zone is in the same administrative entity or not: e.g., \verb|www.epfl.ch| is managed by the same entity as \verb|epfl.ch|, so signing the \verb|www| sub-domain will imply a different (and very likely easier) procedure than signing \verb|epfl.ae|, EPFL's domain for its middle-east campus.
@@ -190,6 +190,10 @@ Signing new zones will have different administrative implications depending on w
 \subsubsection{Single administrative domain}
 Basically, once an organization has its main domain signed, it is relatively easy for any sub-entity within said organization to get a sub-domain signed, and to coordinate any operations relative to DNSSEC like key rollover: staying with our EPFL example, it can suffice to contact the IT-department and discuss about the procedure with them\footnote{EPFL does not actually use DNSSEC, but we use the school as an example for the sake of simplicity.}. The bottom line is that it is relatively easy to handle the additional work and information updates required by DNSSEC as long as every concerned party lies within the same organization.
 \subsubsection{Multiple administrative domain}
+DNSSEC's true challenges arise when we begin to consider several administrative entities (the three R's, mainly). As stated earlier, once the \verb|epfl.ch| zone is signed it is easy for the school to sign \verb|www.epfl.ch|. However, if the domain to be signed was \verb|epfl.ch| or \verb|epfl.ae|, the school would have to deal with the entity or entities managing the TLD's (\verb|ch.| managed by Switch or \verb|ae.|\footnote{epfl.ae has been registered at 'Instra Corporation Pty Ltd', a registrar for the ae.}, respectively), which will have they own terms and conditions, which might very well be different among different registrars and TLD's. 	
+
+While standard DNS can perfectly live with some of the temporary imprecisions generated by non-optimal interactions between the three R's, DNSSEC is far less tolerant for such jitter: typically, if the \verb|epfl.ch| zone updates its keys but Switch fails to reflect this change fast enough in its records, query responses from \verb|epfl.ch|'s DNS servers will appear as illegitimate whereas they perfectly are.
+
 \subsection{Disabling DNSSEC}
 
 \section{Case-Study: \texttt{ch.} Zone\wbts}
