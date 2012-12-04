@@ -23,7 +23,7 @@
 \twocolumn[
 \maketitle
 \begin{onecolabstract}
-  In this paper we recapitutale the current deployment status of
+  In this paper we recapitulate the current deployment status of
   DNSSEC and go into the main issues when managing its keys. It
   outlines the paper ``Interadministrative Challenges in Managing
   DNSKEYs'' \cite{Osterweil09} and updates some of its contents
@@ -42,7 +42,7 @@ DNSSEC is gradually being deployed in the Internet. However, managing
 the cryptographic keys required for the secure delegation provided by
 DNSSEC is not always entirely trivial.
 
-In this paper we will first remind of the prinicpal necessary
+In this paper we will first remind of the principal necessary
 operations for key management in DNSSEC. Then we will give the reader
 an overview of the current status of DNSSEC deployment in the Internet
 to put the in-detail discussion about key management into the right
@@ -56,7 +56,7 @@ issues.
 In the following, every necessary operation for key management in
 DNSSEC is described as a reminder to the reader. This is by no means
 intended to give an introduction to DNSSEC but rather to remind the
-reader about specific details particularily relevant to this paper.
+reader about specific details particularly relevant to this paper.
 
 \paragraph{Enabling DNSSEC} When enabling DNSSEC for a zone, the
 parent zone has to establish and sign a DS record with the newly
@@ -66,7 +66,7 @@ created public-key.
 records for a zone should be changed somewhere between once every week
 up to once every month. While the detailed rollover procedure is
 irrelevant here, it is important to know, that the parent zone has to
-update the its DS record.
+update its DS record.
 
 \paragraph{Disabling DNSSEC} An operator might choose to discontinue
 DNSSEC for a zone. The DS records (or other means of signing DNSKEYs
@@ -160,7 +160,7 @@ add trusted keys manually.
 This section covers the issues and quirks related to the management of DNSSEC.
 \subsection{3Rs}
 %% Talk about EPP or push burden to Case-Study
-Regarding the management of the internet namespace, three entities can generally be considered:
+Regarding the management of the Internet namespace, three entities can generally be considered:
 
 \begin{itemize}
 \item the registry;
@@ -176,7 +176,7 @@ In Switzerland, for example, Switch plays both the roles of the registry and a r
 
 Registrants are also free to play the registry and registrant roles for their own sub-domains: groups, laboratories and associations within EPFL will obtain an \verb|epfl.ch| sub-domain, like the LACAL and it's \verb|lacal.epfl.ch| subdomain, for example.
 
-The entities behind the three R's are the exact same wether DNSSEC is used or not, but DNSSEC modifies the relations among them: e.g., DNSKEY updates will now also require communication between the three R's, even if no practical information like IP addresses or billing data actually changed.
+The entities behind the three R's are the exact same whether DNSSEC is used or not, but DNSSEC modifies the relations among them: e.g., DNSKEY updates will now also require communication between the three R's, even if no practical information like IP addresses or billing data actually changed.
 
 \subsection{Signing a zone}
 Whenever an entity wishes to sign its zone, it should ideally turn to its already signed parent zone, in order to create a continuous trust chain, as said parent will then serve a DS record containing the child zone's key signature.
@@ -184,7 +184,7 @@ Whenever an entity wishes to sign its zone, it should ideally turn to its alread
 Signing new zones will have different administrative implications depending on whether the parent zone is in the same administrative entity or not: e.g., \verb|www.epfl.ch| is managed by the same entity as \verb|epfl.ch|, so signing the \verb|www| sub-domain will imply a different (and very likely easier) procedure than signing \verb|epfl.ae|, EPFL's domain for its middle-east campus.
 
 \subsubsection{Single administrative domain}
-Basically, once an organisation has its main domain signed, it is relatively easy for any sub-entity within said organisation to get a sub-domain signed, and to coordinate any operations relative to DNSSEC like key roll-over: staying with our EPFL example, it can suffice to contact the IT-department and discuss about the procedure with them\footnote{EPFL does not actually use DNSSEC, but we use the school as an example for the sake of simplicity.}. The bottom line is that it is relatively easy to handle the additional work and information updates required by DNSSEC as long as every concerned party lies within the same organization.
+Basically, once an organization has its main domain signed, it is relatively easy for any sub-entity within said organization to get a sub-domain signed, and to coordinate any operations relative to DNSSEC like key rollover: staying with our EPFL example, it can suffice to contact the IT-department and discuss about the procedure with them\footnote{EPFL does not actually use DNSSEC, but we use the school as an example for the sake of simplicity.}. The bottom line is that it is relatively easy to handle the additional work and information updates required by DNSSEC as long as every concerned party lies within the same organization.
 \subsubsection{Multiple administrative domain}
 DNSSEC's true challenges arise when we begin to consider several administrative entities (the three R's, mainly). As stated earlier, once the \verb|epfl.ch| zone is signed it is easy for the school to sign \verb|www.epfl.ch|. However, if the domain to be signed was \verb|epfl.ch| or \verb|epfl.ae|, the school would have to deal with the entity or entities managing the TLD's (\verb|ch.| managed by Switch or \verb|ae.|\footnote{epfl.ae has been registered at 'Instra Corporation Pty Ltd', a registrar for the ae.}, respectively), which will have they own terms and conditions, which might very well be different among different registrars and TLD's.
 
