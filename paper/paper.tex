@@ -3,7 +3,7 @@
 \usepackage{graphicx}
 %\usepackage{hyperref}
 \usepackage{url}
-
+\usepackage{abstract}
 
 %% Limit: 40000 chars
 %% check with `detex paper.tex | wc -m`
@@ -20,7 +20,22 @@
 
 \begin{document}
 
+\twocolumn[
 \maketitle
+\begin{onecolabstract}
+  In this paper we recapitutale the current deployment status of
+  DNSSEC and go into the main issues when managing its keys. It
+  outlines the paper ``Interadministrative Challenges in Managing
+  DNSKEYs'' \cite{Osterweil09} and updates some of its contents
+  especially with respect to the signing of the root zone on July
+  15, 2012. We will see that DNSSEC penetration in the Internet's
+  zones is still low but that the necessary foundations have been lain
+  for full deployment.
+\end{onecolabstract}
+\vspace{\baselineskip}
+]
+
+
 
 \section{Introduction}
 %% TODO add some blah about management and penetration.
@@ -46,7 +61,7 @@ as we will see later) need to be removed.
 
 This section will expose the current deployment status of DNSSEC and
 give the reader an idea about the current DNSSEC landscape before
-going into the specific DNSKEY managment issues. Please refer to
+going into the specific DNSKEY management issues. Please refer to
 section~\ref{sec:case-study} for more details on the situation of the
 \verb|ch.| zone.
 
@@ -65,14 +80,14 @@ increase of crawled DNSSEC zones mid-2008, so interprets
 \cite{Osterweil09}, is due to a cache poisoning attack discovered in
 summer 2008 \cite{dnsVuln}. During our research, we were unfortunately
 unable to find an estimate of the number of (production) DNS zones in
-the internet to estimate the percentage of DNSSEC penetration.
+the Internet to estimate the percentage of DNSSEC penetration.
 
 Contrary to the state at writing of \cite{Osterweil09}, the DNS
 root-zone is signed since July 15, 2010 \cite{root-dnssec} and hence
 serves as the global trust anchor. However, as of this writing,
 data\footnote{\url{http://secspider.cs.ucla.edu/islands.html}}
 gathered by \cite{secspider} suggests that more than half of the
-deployed DNSSEC zones which are verifyable (i.e. are likely not to
+deployed DNSSEC zones which are verifiable (i.e. are likely not to
 have a spoofed key, see SecSpider in the next section or
 \cite{Osterweil09} for details), do not have a fully linked
 certificate chain up to the root zone.
@@ -101,15 +116,15 @@ root-zone \cite{itar}.
 The Internet Software Consortium (ISC) still runs an inline TAR
 \cite{iscDlv}, using the DNSSEC Lookaside Validation standard
 \cite{RFC5074}. When a resolver needs to check the key of a zone
-\verb|x| with this TAR, it makes a DNS request of type DLV to
-\url{x.dlv.isc.org}. If it succeeds, the DLV record contains the
+\verb|<X>| with this TAR, it makes a DNS request of type DLV to 
+\url{<X>.dlv.isc.org}. If it succeeds, the DLV record contains the
 signature for the (hopefully matching) DNSKEY. The ISC inline TAR
 requires manual addition of keys to the repository.
 
 SecSpider \cite{secspider, Osterweil09} is another inline TAR, but
 uses a different approach for key validation: Rather then entering and
 signing public keys manually, it randomly queries DNSKEY entries from
-different point in the world simultaniously and only enters it into
+different point in the world simultaneously and only enters it into
 the TAR, if all the received keys match. This makes spoofing of a key
 very difficult due to the spatial distribution and the
 unpredictability of the queries.
@@ -119,16 +134,17 @@ TAR stores keys locally at the resolver and hence needs not to issue an
 additional query for keys when a new DNS request arrives. The
 statically configured TAR may automatically poll keys asynchronously,
 or is maybe just a bunch of manually configured trusted keys. As an
-example of a statcially configured TAR, we have
+example of a statically configured TAR, we have
 Vantages\footnote{\url{http://www.vantage-points.org/}}, an addition
 to a standard resolver, \cite{Osterweil09} which can poll keys from
 different locations such as web pages, but also also other
-vantage-enabled resolvers. Of course, the operater may also choose to
+vantage-enabled resolvers. Of course, the operator may also choose to
 add trusted keys manually.
 
 \section{Operations\wbjp}
 This section covers the issues and quirks related to the management of DNSSEC.
 \subsection{3Rs}
+%% Talk about EPP or push burden to Case-Study
 Regarding the management of the internet namespace, three entities can generally be considered:
 
 \begin{itemize}
@@ -163,18 +179,31 @@ Basically, once an organisation has its main domain signed, it is relatively eas
 
 \paragraph{Certificate Chain} According to a query on
 \cite{secspider}, the \verb|ch.| TLD zone is signed and fully
-veryfiable from the root zone anchor on downwards. The certificate
-chain can hence fully be established and no separate TARs are
-required.
+verifiable from the root zone anchor on downwards. The certificate
+chain can hence fully be established and no separate TAR is required.
 
-\paragraph{Rollover} The validity period of a zone signing key (for
-\verb|ch.|) is 37 days \cite{switch10}. For child zones,  DNSSEC and
-DNSKEY entries can be enabled and disabled through SWITCH's
+\paragraph{Penetration} SWITCH states on their website that as of
+30. September 2012, 1'734'170 child-zones of \verb|ch.| have been
+registered\footnote{\url{https://www.nic.ch/reg/cm/wcm-page/statistics/index.html}}. Upon
+inquiry, SWITCH stated that there are around 370 secure delegations
+from the \verb|ch.| zone. This is less than $0.02\%$ penetration
+rate.
+
+\paragraph{Key Management} The validity period of a zone signing key
+(for \verb|ch.|) is 37 days \cite{switch10}. For child zones,  DNSSEC
+and DNSKEY entries can be enabled and disabled through SWITCH's 
 web-interface which is able to pull the keys automatically from the
-authoritative DNS servers. It is therefore relatively simple to enable
-DNSSEC for a \verb|x.ch.| zone, but using the web-interface might be
-cumbersome when having to deal with rollovers for a large number of
-domains.
+authoritative DNS servers. Partners (as Registrars are called in
+Switzerland) may also use EPP for key rollover.
+
+Therefore, it is relatively simple to enable DNSSEC for a \verb|<X>.ch.| 
+zone. While using the web-interface is certainly cumbersome when
+having to deal with rollovers for a large number of domains, any major
+provider may become a SWITCH Partner and can then switch over to EPP
+which solves this issue.
+
+\paragraph{Cost} DNSSEC secure delegation is currently provided by
+SWITCH with no additional cost to normal DNS delegation.
 
 \nocite{*}
 \bibliographystyle{abbrv}
