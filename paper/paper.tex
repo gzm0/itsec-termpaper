@@ -38,10 +38,25 @@
 
 
 \section{Introduction}
-%% TODO add some blah about management and penetration.
+DNSSEC is gradually being deployed in the Internet. However, managing
+the cryptographic keys required for the secure delegation provided by
+DNSSEC is not always entirely trivial.
 
+In this paper we will first remind of the prinicpal necessary
+operations for key management in DNSSEC. Then we will give the reader
+an overview of the current status of DNSSEC deployment in the Internet
+to put the in-detail discussion about key management into the right
+context.
+
+Finally, we will shortly outline the DNSSEC situation in Switzerland
+(i.e. the \verb|ch.|  and how its authorities handle DNSKEY management
+issues.
+
+\subsection{Operations}
 In the following, every necessary operation for key management in
-DNSSEC is described as a reminder to the reader.
+DNSSEC is described as a reminder to the reader. This is by no means
+intended to give an introduction to DNSSEC but rather to remind the
+reader about specific details particularily relevant to this paper.
 
 \paragraph{Enabling DNSSEC} When enabling DNSSEC for a zone, the
 parent zone has to establish and sign a DS record with the newly
