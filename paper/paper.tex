@@ -52,9 +52,28 @@ Finally, we will shortly outline the DNSSEC situation in Switzerland
 (i.e. the \verb|ch.|  and how its authorities handle DNSKEY management
 issues.
 
-\subsection{Chain of Trust}
-%% TODO add
+\subsection{Chain of Trust\wbjp}
+The goal of DNSSEC is to allow resolvers -- any person or process querying a DNS server -- to ensure the authenticity of the reply. Namely, in standard DNS, nothing guarantees the resolvers that his query's answer has not been modified or really originated from a legitimate server.
 
+DNSSEC permits zone operators to \emph{sign} the entries they serve to a resolver, enabling the latter to verify that what he receives is authentic.
+
+This is achieved by establishing a trust chain between something known and the domain that is being queried: e.g., I trust this person to tell me the truth and to be who it claims to be, because a friend I trust is trusting this person.
+
+DNSSEC trust chains are similar to the ones used in SSL, where an entity marks its trust in another by \emph{signing} its certificate\footnote{Which is nothing more than a public-private key pair with additional metadata.}
+
+Hence, in the real world, the \emph{friend} we trust is the so-called root authority -- the root domain in DNSSEC -- of whom we know the public key in advance.
+
+By signing the keys of the TLD's, the root will put its trust into their keys, and any keys the TLD's have signed, resulting in a trust hierarchy illustrated in \ref{fig:trust-chain}. This way, a resolver querying EPFL's DNS server will be able to verify the received query answer against the known root-authority in the following way:
+
+\begin{figure*}
+\center
+  \includegraphics[width=\linewidth]{trust-chain}
+  \caption{Example of a trust-hierarchy. Here, the resolver can establish a trust chain between the Root and the ucla.edu zone.}
+  \label{fig:trust-chain}
+\end{figure*}
+
+
+ 
 \subsection{Operations}
 In the following, every necessary operation for key management in
 DNSSEC is described as a reminder to the reader. This is by no means
@@ -229,7 +248,7 @@ In such a case, it is absolutely insufficient to only disable the service on the
 
 For DNSSEC's shutdown to be clean and complete, the parent zone and any TAR must be cleaned from whatever DS record they contain for the zone which is being withdrawn from DNSSEC.
 
-Again, this teardown must happen in a synchronous way, as resolvers will perceive the domain to be \emph{broken} as long as all involved parties are in a incoherent state.
+Again, this teardown must happen in a synchronous way -- requiring additional effort with regard to DNS -- as resolvers will perceive the domain to be \emph{broken} as long as all involved parties are in a incoherent state.
 
 
 \section{Case-Study: \texttt{ch.} Zone\wbts}
