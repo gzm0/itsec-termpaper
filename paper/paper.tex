@@ -196,7 +196,14 @@ Regarding the management of the Internet namespace, three entities can generally
 
 The registries are the entities serving the records for a zone. For example, Switch is the registry for the \verb|ch.| zone. Registrants, on their side, are the entities willing to obtain a certain domain: the registrant of \verb|epfl.ch.| is the school in itself (its IT-department to be precise \footnote{As a \emph{whois} query on the epfl.ch domain will show you.}), for example.
 
-These two entities can eventually be linked by the third one, the registrar: this is where registrants will obtain the actual registration service, namely, the linking between a domain name and an IP address.
+These two entities can eventually be linked by the third one, the registrar: this is where registrants will obtain the actual registration service, namely, the linking between a domain name and an IP address. Figure~\ref{gif:3rs} illustrates the relations among the three R's.
+
+\begin{figure}
+\center
+  \includegraphics[width=\linewidth]{3Rs}
+  \caption{Example of relations between the three R's.}
+  \label{fig:3Rs}
+\end{figure}
 
 In Switzerland, for example, Switch plays both the roles of the registry and a registrar: other registrars also exist but one can purchase a domain name directly from Switch. Registries will generally delegate part or whole of the namespace registration managing to registrars\footnote{For example, one can also buy a .ch domain from \url{http://gandi.net}}
 
