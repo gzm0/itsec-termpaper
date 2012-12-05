@@ -60,7 +60,7 @@ This is achieved by establishing a trust chain between something known and the d
 
 In the DNS world, the \emph{friend} we trust is the so-called root authority -- the root domain -- of whom we know the public key in advance.
 
-By signing the keys of the TLD's, the root will put its trust into their keys, and any keys the TLD's have signed, resulting in a trust hierarchy illustrated in fig.~\ref{fig:trust-chain}. This way, a resolver querying the LACAL's DNS server for \verb|lacal.epfl.ch| will be able to verify the received query answer against the known root-authority in the following way:
+By signing the keys of the TLD's, the root will put its trust into their keys, and any keys the TLD's have signed, resulting in a trust hierarchy illustrated in figure~\ref{fig:trust-chain}. This way, a resolver querying the LACAL's DNS server for \verb|lacal.epfl.ch| will be able to verify the received query answer against the known root-authority in the following way:
 
 \begin{enumerate}
 \item Verify the reply's authenticity using \verb|lacal.epfl.ch|'s public key, obtained from \verb|epfl.ch|'s DNS server ;
@@ -246,7 +246,7 @@ If standard DNS simply provides zone transfers as a mean enabling such migration
 Another issue is that hosting and key signing services that are not registrars don't have to comply to any of ICANN's rules, increasing the difficulty to enforce common procedures, as none of these services is contractually bound to do so.
 
 \subsection{Computing power}
-DNSSEC does not only require a higher coordination among the three R's, it also increases the strain on the computing infrastructure of a registrar when the size and quantity of the  zones it manages grow: updates to a zone or key rollovers require cryptographic signing operations that are orders of magnitude more expensive than simply updating the DNS record. Even with improvements like incremental signing, the computational requirements are significant and must be considered when a registrar whishes to enable DNSSEC.
+DNSSEC does not only require a higher coordination among the three R's, it also increases the strain on the computing infrastructure of a registrar when the size and quantity of the  zones it manages grow: updates to a zone or key rollovers require cryptographic signing operations that are orders of magnitude more expensive than simply updating the DNS record. Even with improvements like incremental signing, the computational requirements are significant and must be considered when a registrar wishes to enable DNSSEC.
 %TODO find good ref on this.
 
 \subsection{Disabling DNSSEC}
