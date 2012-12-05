@@ -63,7 +63,14 @@ DNSSEC trust chains are similar to the ones used in SSL, where an entity marks i
 
 Hence, in the real world, the \emph{friend} we trust is the so-called root authority -- the root domain in DNSSEC -- of whom we know the public key in advance.
 
-By signing the keys of the TLD's, the root will put its trust into their keys, and any keys the TLD's have signed, resulting in a trust hierarchy illustrated in \ref{fig:trust-chain}. This way, a resolver querying EPFL's DNS server will be able to verify the received query answer against the known root-authority in the following way:
+By signing the keys of the TLD's, the root will put its trust into their keys, and any keys the TLD's have signed, resulting in a trust hierarchy illustrated in fig.~\ref{fig:trust-chain}. This way, a resolver querying the LACAL's DNS server for \verb|lacal.epfl.ch| will be able to verify the received query answer against the known root-authority in the following way:
+
+\begin{enumerate}
+\item Verify the reply's authenticity using \verb|lacal.epfl.ch|'s public key, obtained from \verb|epfl.ch|'s DNS server ;
+\item Verify the query -- containing \verb|lacal.epfl.ch|'s public key -- returned by \verb|epfl.ch| with its public key, retrieved from the \verb|.ch| DNS server;
+\item Again, verify \verb|.ch|'s responses by getting its public key from the root domain.
+\item Finally, the root domain's responses can be verified with its already known public key.
+\end{enumerate}
 
 \begin{figure*}
 \center
