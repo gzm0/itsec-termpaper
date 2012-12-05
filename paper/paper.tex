@@ -223,11 +223,15 @@ DNSSEC does not only require a higher coordination among the three R's, it also 
 %TODO find good ref on this.
 
 \subsection{Disabling DNSSEC}
-The final and somewhat unintuitive managerial issue with DNSSEC is what needs to be done once a registrant wishes to turn it off.
+The final and somewhat unintuitive managerial issue with DNSSEC is what needs to be done once a zone administrator wishes to turn it off. 
 
-In such a case, it is absolutely insufficient to only turn off the service on the devices serving the aforementioned  zone: in doing so, resolvers won't be able to distinguish between spoofed DNS replies that contain non-DNSSEC data and legitimate replies that simply stopped using DNSSEC.
+In such a case, it is absolutely insufficient to only disable the service on the devices serving the aforementioned  zone: in doing so, resolvers won't be able to distinguish between spoofed DNS replies that contain non-DNSSEC data and legitimate replies that simply stopped using DNSSEC.
 
-For
+For DNSSEC's shutdown to be clean and complete, the parent zone and any TAR must be cleaned from whatever DS record they contain for the zone which is being withdrawn from DNSSEC.
+
+Again, this teardown must happen in a synchronous way, as resolvers will perceive the domain to be \emph{broken} as long as all involved parties are in a incoherent state.
+
+
 \section{Case-Study: \texttt{ch.} Zone\wbts}
 \label{sec:case-study}
 
