@@ -49,7 +49,7 @@ put the in-detail discussion about key management into the right
 context.
 
 Finally, we will shortly outline the DNSSEC situation in Switzerland
-(i.e. the \verb|ch.|  and how its authorities handle DNSKEY management
+(i.e. the \verb|ch.| zone and how its authorities handle DNSKEY management
 issues.
 
 \subsection{Chain of Trust\wbjp}
@@ -59,9 +59,7 @@ DNSSEC permits zone operators to \emph{sign} the entries they serve to a resolve
 
 This is achieved by establishing a trust chain between something known and the domain that is being queried: e.g., I trust this person to tell me the truth and to be who it claims to be, because a friend I trust is trusting this person.
 
-DNSSEC trust chains are similar to the ones used in SSL, where an entity marks its trust in another by \emph{signing} its certificate\footnote{Which is nothing more than a public-private key pair with additional metadata.}
-
-Hence, in the real world, the \emph{friend} we trust is the so-called root authority -- the root domain in DNSSEC -- of whom we know the public key in advance.
+In the DNS world, the \emph{friend} we trust is the so-called root authority -- the root domain in DNSSEC -- of whom we know the public key in advance.
 
 By signing the keys of the TLD's, the root will put its trust into their keys, and any keys the TLD's have signed, resulting in a trust hierarchy illustrated in fig.~\ref{fig:trust-chain}. This way, a resolver querying the LACAL's DNS server for \verb|lacal.epfl.ch| will be able to verify the received query answer against the known root-authority in the following way:
 
@@ -71,6 +69,8 @@ By signing the keys of the TLD's, the root will put its trust into their keys, a
 \item Again, verify \verb|.ch|'s responses by getting its public key from the root domain.
 \item Finally, the root domain's responses can be verified with its already known public key.
 \end{enumerate}
+
+DNSSEC's trust hierarchy is similar to the SSL Certificate infrastructure, where an entity marks its trust in another by \emph{signing} its certificate\footnote{Which is nothing more than a public key with additional metadata.}. However, DNSSEC theoretically only has one single top-authority\footnote{The use of TAR's should remain temporary, as in an ideal setup DNSSEC could work without them.}, while the SSL Certificate hierarchy disposes of many.
 
 \begin{figure*}
 \center
