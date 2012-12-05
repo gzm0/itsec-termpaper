@@ -9,14 +9,13 @@
 %% check with `detex paper.tex | wc -m`
 
 \title{DNSKEY Management}
-\author{Julien Perrochet \and Tobias Schlatter}
+\author{Julien Perrochet [JP] \and Tobias Schlatter [TS]}
 \date{December 12, 2012}
 
 \graphicspath{{../figures/}}
 
-\newcommand{\wbjp}{\protect\footnote{Written by Julien Perrochet}}
-\newcommand{\wbts}{\protect\footnote{Written by Tobias Schlatter}}
-
+\newcommand{\wbjp}{\textsuperscript{JP}}
+\newcommand{\wbts}{\textsuperscript{TS}}
 
 \begin{document}
 
@@ -49,7 +48,7 @@ put the in-detail discussion about key management into the right
 context.
 
 Finally, we will shortly outline the DNSSEC situation in Switzerland
-(i.e. the \verb|ch.|  and how its authorities handle DNSKEY management
+(i.e. the \verb|ch.| zone and how its authorities handle DNSKEY management
 issues.
 
 \subsection{Chain of Trust\wbjp}
@@ -59,11 +58,18 @@ DNSSEC permits zone operators to \emph{sign} the entries they serve to a resolve
 
 This is achieved by establishing a trust chain between something known and the domain that is being queried: e.g., I trust this person to tell me the truth and to be who it claims to be, because a friend I trust is trusting this person.
 
-DNSSEC trust chains are similar to the ones used in SSL, where an entity marks its trust in another by \emph{signing} its certificate\footnote{Which is nothing more than a public-private key pair with additional metadata.}
+In the DNS world, the \emph{friend} we trust is the so-called root authority -- the root domain -- of whom we know the public key in advance.
 
-Hence, in the real world, the \emph{friend} we trust is the so-called root authority -- the root domain in DNSSEC -- of whom we know the public key in advance.
+By signing the keys of the TLD's, the root will put its trust into their keys, and any keys the TLD's have signed, resulting in a trust hierarchy illustrated in fig.~\ref{fig:trust-chain}. This way, a resolver querying the LACAL's DNS server for \verb|lacal.epfl.ch| will be able to verify the received query answer against the known root-authority in the following way:
 
-By signing the keys of the TLD's, the root will put its trust into their keys, and any keys the TLD's have signed, resulting in a trust hierarchy illustrated in \ref{fig:trust-chain}. This way, a resolver querying EPFL's DNS server will be able to verify the received query answer against the known root-authority in the following way:
+\begin{enumerate}
+\item Verify the reply's authenticity using \verb|lacal.epfl.ch|'s public key, obtained from \verb|epfl.ch|'s DNS server ;
+\item Verify the query -- containing \verb|lacal.epfl.ch|'s public key -- returned by \verb|epfl.ch| with its public key, retrieved from the \verb|.ch| DNS server;
+\item Again, verify \verb|.ch|'s responses by getting its public key from the root domain.
+\item Finally, the root domain's responses can be verified with its already known public key.
+\end{enumerate}
+
+DNSSEC's trust hierarchy is similar to the SSL Certificate infrastructure, where an entity marks its trust in another by \emph{signing} its certificate\footnote{Which is nothing more than a public key with additional metadata.}. However, DNSSEC theoretically only has one single top-authority\footnote{The use of TAR's should remain temporary, as in an ideal setup DNSSEC could work without them.}, while the SSL Certificate hierarchy disposes of many.
 
 \begin{figure*}
 \center
@@ -74,7 +80,7 @@ By signing the keys of the TLD's, the root will put its trust into their keys, a
 
 
  
-\subsection{Operations}
+\subsection{Operations\wbts}
 In the following, every necessary operation for key management in
 DNSSEC is described as a reminder to the reader. This is by no means
 intended to give an introduction to DNSSEC but rather to remind the
@@ -87,8 +93,8 @@ created public-key.
 \paragraph{Key Rollover} RFC4641 \cite{RFC4641} suggests that the DNSKEY
 records for a zone should be changed somewhere between once every week
 up to once every month. While the detailed rollover procedure is
-irrelevant here, it is important to know, that the parent zone has to
-update its DS record.
+irrelevant here, it is important to know that the parent zone has to
+update its DS record regularly.
 
 \paragraph{Disabling DNSSEC} An operator might choose to discontinue
 DNSSEC for a zone. The DS records (or other means of signing DNSKEYs
@@ -106,7 +112,7 @@ section~\ref{sec:case-study} for more details on the situation of the
 In figure~\ref{fig:dnssec-growth} you can see the development of
 deployed, production DNSSEC zones. The data comes from SecSpider
 \cite{secspider} which crawls as many DNSSEC zones as possible,
-verifies whether it is properly signed and then applies a heuristics to
+verifies whether they are properly signed and then applies a heuristic to
 determine whether it is actually a production zone. The goal is to
 rule out zones which are created for testing such as
 \url{bogussig.bogussig.test.jelte.nlnet.labs.nl}.
@@ -151,8 +157,7 @@ formerly operated by IANA and discontinued since the signing of the
 root-zone \cite{itar}.
 
 The Internet Software Consortium (ISC) still runs an inline TAR
-\cite{iscDlv}, using the DNSSEC Lookaside Validation standard
-\cite{RFC5074}. When a resolver needs to check the key of a zone
+\cite{iscDlv}, using the DNSSEC Lookaside Validation standard~\cite{RFC5074}. When a resolver needs to check the key of a zone
 \verb|<X>| with this TAR, it makes a DNS request of type DLV to 
 \url{<X>.dlv.isc.org}. If it succeeds, the DLV record contains the
 signature for the (hopefully matching) DNSKEY. The ISC inline TAR
@@ -182,12 +187,12 @@ add trusted keys manually.
 This section covers the issues and quirks related to the management of DNSSEC.
 \subsection{3Rs}
 %% Talk about EPP or push burden to Case-Study
-Regarding the management of the Internet namespace, three entities can generally be considered:
+Regarding the management of the Internet namespace, three entities can generally be considered, namely:
 
 \begin{itemize}
-\item a registry;
-\item a registrant;
-\item a registrar.
+\item \textbf{R}egistries;
+\item \textbf{R}egistrants;
+\item \textbf{R}egistrars.
 \end{itemize}
 
 The registries are the entities serving the records for a zone. For example, Switch is the registry for the \verb|ch.| zone. Registrants, on their side, are the entities willing to obtain a certain domain: the registrant of \verb|epfl.ch| is the school in itself (its IT-department to be precise \footnote{As a \emph{whois} query on the epfl.ch domain will show you.}), for example.
@@ -206,14 +211,17 @@ Said parent should then serve a DS record containing the child zone's key signat
 
 Signing new zones will have different administrative implications depending on whether the parent zone is in the same administrative entity or not: e.g., \verb|www.epfl.ch| is managed by the same entity as \verb|epfl.ch|, so signing the \verb|www| sub-domain will imply a different (and very likely easier) procedure than signing \verb|epfl.ae|, EPFL's domain for its middle-east campus.
 
+Enabling DNSSEC for a zone not being a \emph{do once and forget} operation, but instead requires additional coordination among the three R's, let us see what the managerial consequences arise, depending on if we cross or stay within certain administrative boundaries.
+
 \subsubsection{Single administrative domain}
 Basically, once an organization has its main domain signed, it is relatively easy for any sub-entity within said organization to get a sub-domain signed, and to coordinate any operations relative to DNSSEC like key rollover: staying with our EPFL example, it can suffice to contact the IT-department and discuss about the procedure with them\footnote{EPFL does not actually use DNSSEC, but we use the school as an example for the sake of simplicity.}. The bottom line is that it is relatively easy to handle the additional work and information updates required by DNSSEC as long as every concerned party lies within the same organization.
+
 \subsubsection{Multiple administrative domain}
 DNSSEC's true challenges arise when we begin to consider several administrative entities (the three R's, mainly). As stated earlier, once the \verb|epfl.ch| zone is signed it is easy for the school to sign \verb|www.epfl.ch|. However, if the domain to be signed was \verb|epfl.ch| or \verb|epfl.ae|, the school would have to deal with the entity or entities managing the TLD's (\verb|ch.| managed by Switch or \verb|ae.|\footnote{epfl.ae has been registered at 'Instra Corporation Pty Ltd', a registrar for the ae.}, respectively), which will have they own terms and conditions, which might very well be different among different registrars and TLD's. 	
 
 While standard DNS can perfectly live with some of the temporary imprecisions generated by non-optimal interactions between the three R's, DNSSEC is far less tolerant to such jitter: typically, if the \verb|epfl.ch| zone updates its keys but Switch fails to reflect this change fast enough in its records, query responses from \verb|epfl.ch|'s DNS servers will appear as illegitimate whereas they perfectly are, and this will last as long as Switch's servers do not reflect the update.
 
-As suggested by some RFC\footnote{RFC 4641}, key updates should  happen at least every few months. Hence, it is crucial that a streamlined and reactive process is available for child-zones to notify their parent-zone when required. In the three R's setup, this means that the registry (or the registrars) must provide means for registrants to easily inform them of any changes regarding their DNSSEC keys.
+As suggested by some RFC\cite{RFC4641} key updates should  happen at least every few months. Hence, it is crucial that a streamlined and reactive process is available for child-zones to notify their parent-zone when required. In the three R's setup, this means that the registry (or the registrars) must provide means for registrants to easily inform them of any changes regarding their DNSSEC keys.
 %TODO process figure with Registrant -> Registrar -> Registry ?
 
 
