@@ -62,7 +62,22 @@
 \begin{frame}
   \frametitle{DNSSEC Certificate Chain}
   \framesubtitle{How many are properly signed?}
-  \includegraphics[width=\textwidth]{dnssec-on-tlds}
+
+  \begin{block}{Productive DNSSEC zones}
+    \begin{itemize}
+    \item $< 50\%$ properly signed
+    \item Others: Not verifiable
+    \end{itemize}
+  \end{block}
+
+  \pause
+  
+  \begin{block}{Trust Anchor Repository}
+    \begin{itemize}
+    \item Stores trusted keys
+    \item Orthogonal to DNSSEC key chain
+    \end{itemize}
+  \end{block}
 
   %% Mention TARs
 \end{frame}
