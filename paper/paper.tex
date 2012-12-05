@@ -81,7 +81,7 @@ DNSSEC's trust hierarchy is similar to the SSL Certificate infrastructure, where
 
 
  
-\subsection{Operations}
+\subsection{Operations\wbts}
 In the following, every necessary operation for key management in
 DNSSEC is described as a reminder to the reader. This is by no means
 intended to give an introduction to DNSSEC but rather to remind the
@@ -189,12 +189,12 @@ add trusted keys manually.
 This section covers the issues and quirks related to the management of DNSSEC.
 \subsection{3Rs}
 %% Talk about EPP or push burden to Case-Study
-Regarding the management of the Internet namespace, three entities can generally be considered:
+Regarding the management of the Internet namespace, three entities can generally be considered, namely:
 
 \begin{itemize}
-\item a registry;
-\item a registrant;
-\item a registrar.
+\item \textbf{R}egistries;
+\item \textbf{R}egistrants;
+\item \textbf{R}egistrars.
 \end{itemize}
 
 The registries are the entities serving the records for a zone. For example, Switch is the registry for the \verb|ch.| zone. Registrants, on their side, are the entities willing to obtain a certain domain: the registrant of \verb|epfl.ch| is the school in itself (its IT-department to be precise \footnote{As a \emph{whois} query on the epfl.ch domain will show you.}), for example.
