@@ -264,7 +264,7 @@ In both cases,  this \emph{transfer} scenario will require a certain level of co
 Another issue is that hosting and key signing services that are not registrars don't have to comply to any of ICANN's rules, increasing the difficulty to enforce common procedures, as none of these services is contractually bound to do so.
 
 \subsection{Computing power}
-DNSSEC does not only require a higher coordination among the three R's, it also increases the strain on the computing infrastructure of a registrar when the size and quantity of the  zones it manages grow: updates to a zone or key rollovers require cryptographic signing operations that are orders of magnitude more expensive than simply updating a DNS record. Even with improvements like incremental signing, the computational requirements are significant and must be considered when a registrar wishes to enable DNSSEC.
+DNSSEC does not only require a higher coordination among the three R's, it also increases the strain on the computing infrastructure of a registrar when the size and quantity of the  zones it manages grow: updates to a zone or key rollovers require cryptographic signing operations that are orders of magnitude more expensive than simply updating a DNS record. Even with improvements like incremental signing~\cite{signMetrics}, the computational requirements are significant and must be considered when a registrar wishes to enable DNSSEC.
 %TODO find good ref on this.
 
 \subsection{Disabling DNSSEC}
