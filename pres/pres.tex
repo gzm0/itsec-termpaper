@@ -63,21 +63,32 @@
   \frametitle{DNSSEC Certificate Chain}
   \framesubtitle{How many are properly signed?}
 
-  \begin{block}{Productive DNSSEC zones}
-    \begin{itemize}
-    \item $< 50\%$ properly signed
-    \item Others: Not verifiable
-    \end{itemize}
-  \end{block}
+  \begin{columns}[c]
+    \begin{column}{4.8cm}
 
-  \pause
+      \begin{block}{Root Zone}
+        \begin{itemize}
+        \item Signed July 15, 2010
+        \item $< 50\%$ zones properly chained
+        \end{itemize}
+      \end{block}
   
-  \begin{block}{Trust Anchor Repository}
-    \begin{itemize}
-    \item Stores trusted keys
-    \item Orthogonal to DNSSEC key chain
-    \end{itemize}
-  \end{block}
+      \begin{block}<3->{Trust Anchor Repository}
+        \begin{itemize}
+        \item Stores trusted keys
+        \item Orthogonal to DNSSEC key chain
+        \end{itemize}
+      \end{block}
+
+    \end{column}
+
+    \begin{column}{6cm}
+      \includegraphics<1>  [width=\textwidth]{trust-chain-part}
+      \includegraphics<2-3>[width=\textwidth]{trust-chain-no-tar}
+      \includegraphics<4>  [width=\textwidth]{trust-chain-tar}
+    \end{column}
+
+  \end{columns}
 
   %% Mention TARs
 \end{frame}
@@ -122,6 +133,8 @@
       \includegraphics<7,8>[width=\textwidth]{trust-chain-ops-6}
       \includegraphics<9>  [width=\textwidth]{trust-chain-ops-7}
       \includegraphics<10> [width=\textwidth]{trust-chain-ops-1}
+      \includegraphics<11> [width=\textwidth]{trust-chain-tar-no-key}
+      \includegraphics<12> [width=\textwidth]{trust-chain-tar-no-deleg}
     \end{column}
 
   \end{columns}
