@@ -37,7 +37,7 @@
 
 
 \section{Introduction}
-DNSSEC is gradually being deployed in the Internet. However, managing
+DNSSEC is gradually being deployed throughout the Internet. However, managing
 the cryptographic keys required for the secure delegation provided by
 DNSSEC is not always entirely trivial.
 
@@ -52,22 +52,22 @@ Finally, we will shortly outline the DNSSEC situation in Switzerland
 issues.
 
 \subsection{Chain of Trust\wbjp}
-The goal of DNSSEC is to allow resolvers -- any person or process querying a DNS server -- to ensure the authenticity of the reply. Namely, in standard DNS, nothing guarantees the resolvers that his query's answer has not been modified or really originated from a legitimate server.
+The goal of DNSSEC is to allow resolvers -- any person or process querying a DNS server -- to ensure the authenticity of the reply. Namely, in standard DNS, nothing guarantees the resolvers that his query's answer has not been modified during the transmission or really originated from a legitimate server.
 
 DNSSEC permits zone operators to \emph{sign} the entries they serve to a resolver, enabling the latter to verify that what he receives is authentic.
 
 This is achieved by establishing a trust chain between something known and the domain that is being queried: e.g., I trust this person to tell me the truth and to be who it claims to be, because a friend I trust is trusting this person.
 
-In the DNS world, the \emph{friend} we trust is the so-called root authority -- the root domain -- of whom we know the public key in advance.
+In the DNS world, the \emph{friend} we trust is the so-called root authority -- the root domain -- of whom we know the public key in advance, so we can verify anything it signed.
 
 By signing the keys of the TLD's, the root will put its trust into their keys, and any keys the TLD's have signed, resulting in a trust hierarchy illustrated in figure~\ref{fig:trust-chain}. This way, a resolver querying the LACAL's DNS server for \verb|lacal.epfl.ch.| will be able to verify the received query answer against the known root-authority in the following way:
 
-%% TODO this is not entirely true. The DNSKEYs are in the zone
-%% itself. Only their signatures are in the parent zone.
 \begin{enumerate}
-\item Verify the reply's authenticity using \verb|lacal.epfl.ch.|'s public key, obtained from \verb|epfl.ch.|'s DNS server ;
-\item Verify the query -- containing \verb|lacal.epfl.ch.|'s public key -- returned by \verb|epfl.ch.| with its public key, retrieved from the \verb|ch.| DNS server;
-\item Again, verify \verb|ch.|'s responses by getting its public key from the root domain.
+\item Verify the reply's authenticity using \verb|lacal.epfl.ch.|'s public key ;
+\item Check \verb|lacal.epfl.ch.|'s public key authenticity by obtaining its signature from \verb|epfl.ch.|'s DNS server ;
+\item Verify the query -- containing \verb|lacal.epfl.ch.|'s public key signature -- returned by \verb|epfl.ch.| with its public key;
+\item Check \verb|epfl.ch.|'s public key against the corresponding signature served by \verb|ch.|;
+\item Again, verify \verb|ch.|'s responses by getting its public key signature from the root domain.
 \item Finally, the root domain's responses can be verified with its already known public key.
 \end{enumerate}
 
@@ -199,7 +199,7 @@ Regarding the management of the Internet namespace, three entities can generally
 \item \textbf{R}egistrars.
 \end{itemize}
 
-The registries are the entities serving the records for a zone. For example, SWITCH is the registry for the \verb|ch.| zone. Registrants, on their side, are the entities willing to obtain a certain domain: the registrant of \verb|epfl.ch.| is the school in itself (its IT-department to be precise\footnote{As a \emph{whois} query on the epfl.ch domain will show you.}), for example.
+The registries are the entities serving the records for a zone. For example, SWITCH is the registry for the \verb|ch.| zone. Registrants, on their side, are the entities willing to obtain a certain domain: the registrant of \verb|epfl.ch.| is the school in itself (its IT-department, to be precise\footnote{As a \emph{whois} query on the epfl.ch domain will show you.}), for example.
 
 %% TODO description about registrars is wrong. They do not host DNS entries.
 These two entities can eventually be linked by the third one, the registrar: this is where registrants will obtain the actual registration service, namely, the linking between a domain name and an IP address. Figure~\ref{fig:3Rs} illustrates the relations among the three R's.
@@ -231,7 +231,7 @@ Enabling DNSSEC for a zone not being a \emph{do once and forget} operation, but 
 Basically, once an organization has its main domain signed, it is relatively easy for any sub-entity within said organization to get a sub-domain signed, and to coordinate any operations relative to DNSSEC like key rollover: staying with our EPFL example, it can suffice to contact the IT-department and discuss about the procedure with them\footnote{EPFL does not actually use DNSSEC, but we use the school as an example for the sake of simplicity.}. The bottom line is that it is relatively easy to handle the additional work and information updates required by DNSSEC as long as every concerned party lies within the same organization.
 
 \subsubsection{Multiple administrative domain}
-DNSSEC's true challenges arise when we begin to consider several administrative entities (the three R's, mainly). As stated earlier, once the \verb|epfl.ch.| zone is signed it is easy for the school to sign \verb|www.epfl.ch.|. However, if the domain to be signed was \verb|epfl.ch.| or \verb|epfl.ae|, the school would have to deal with the entity or entities managing the TLD's (\verb|ch.| managed by SWITCH or \verb|ae.|\footnote{epfl.ae has been registered at 'Instra Corporation Pty Ltd', a registrar for the ae.}, respectively), which will have they own terms and conditions, which might very well be different among different registrars and TLD's. 	
+DNSSEC's true challenges arise when we begin to consider several administrative entities (the three R's, mainly). As stated earlier, once the \verb|epfl.ch.| zone is signed it is easy for the school to sign \verb|www.epfl.ch.|. However, if the domain to be signed was \verb|epfl.ch.| or \verb|epfl.ae|, the school would have to deal with the entity or entities managing the TLD's (\verb|ch.|, managed by SWITCH, or \verb|ae.|\footnote{epfl.ae has been registered at 'Instra Corporation Pty Ltd', a registrar for the ae.}, respectively), which will have they own terms and conditions, which might very well vary among different registrars and TLD's. 	
 
 While standard DNS can perfectly live with some of the temporary imprecisions generated by non-optimal interactions between the three R's, DNSSEC is far less tolerant to such jitter: typically, if the \verb|epfl.ch.| zone updates its keys but SWITCH fails to reflect this change fast enough in its records, query responses from \verb|epfl.ch.|'s DNS servers will appear as illegitimate whereas they perfectly are, and this will last as long as SWITCH's servers do not reflect the update.
 
@@ -244,7 +244,7 @@ Furthermore, as these communications concern the DNSSEC setup, security must be 
 \paragraph*{Entity Roles Overlap} Another issue arises when we consider the fact that registrants may outsource part or whole of the hosting burden, like:
 
 \begin{description}
-\item[Key Signing] Services that will handle the zone signing and key rollovers are available\footnote{like this registrar: \url{http://registrars.nominet.org.uk/registration-and-domain-management/dns/dnssec-signing-service}}.
+\item[Key Signing] Services that will handle the zone signing and key rollovers are available\footnote{Like this registrar: \url{http://registrars.nominet.org.uk/registration-and-domain-management/dns/dnssec-signing-service}}.
 \item[Hosting] Countless hosting services are available, many of which are proposed by actual registrars. Some of them can also propose DNSSEC to their customers, in addition to the standard DNS service they also provide.
 \end{description}
 
@@ -254,13 +254,15 @@ If standard DNS simply provides zone transfers as a mean enabling such migration
 
 \begin{itemize}
 \item[-] The transferred private key is not totally \emph{private} anymore, as now both the old and new service provider know it;
-\item[-] Newly generated keys will require an update of the parent zone, and this might happen outside of normally planned rollover periods.
+\item[-] Newly generated keys will require an update of the parent zone
 \end{itemize}
+
+In both cases,  this \emph{transfer} scenario will require a certain level of cooperation between two concurrent companies.
 
 Another issue is that hosting and key signing services that are not registrars don't have to comply to any of ICANN's rules, increasing the difficulty to enforce common procedures, as none of these services is contractually bound to do so.
 
 \subsection{Computing power}
-DNSSEC does not only require a higher coordination among the three R's, it also increases the strain on the computing infrastructure of a registrar when the size and quantity of the  zones it manages grow: updates to a zone or key rollovers require cryptographic signing operations that are orders of magnitude more expensive than simply updating the DNS record. Even with improvements like incremental signing, the computational requirements are significant and must be considered when a registrar wishes to enable DNSSEC.
+DNSSEC does not only require a higher coordination among the three R's, it also increases the strain on the computing infrastructure of a registrar when the size and quantity of the  zones it manages grow: updates to a zone or key rollovers require cryptographic signing operations that are orders of magnitude more expensive than simply updating a DNS record. Even with improvements like incremental signing, the computational requirements are significant and must be considered when a registrar wishes to enable DNSSEC.
 %TODO find good ref on this.
 
 \subsection{Disabling DNSSEC}
@@ -270,7 +272,7 @@ In such a case, it is absolutely insufficient to only disable the service on the
 
 For DNSSEC's shutdown to be clean and complete, the parent zone and any TAR must be cleaned from whatever DS record they contain for the zone which is being withdrawn from DNSSEC.
 
-Again, this teardown must happen in a synchronous way -- requiring additional effort with regard to DNS -- as resolvers will perceive the domain to be \emph{broken} as long as all involved parties are in a incoherent state.
+Again, this teardown must happen in a synchronous way -- requiring additional efforts compared to standard DNS -- as resolvers will perceive the domain to be \emph{broken} as long as all involved parties are in an incoherent state.
 
 
 \section{Case-Study: \texttt{ch.} Zone\wbts}
