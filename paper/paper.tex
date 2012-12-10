@@ -74,9 +74,7 @@ By signing the keys of the TLD's, the root will put its trust into their keys, a
 \item Finally, the root domain's responses can be verified with its already known public key.
 \end{enumerate}
 
-%% TODO you cannot talk about TARs here without explaining. Reference
-%% for this?
-DNSSEC's trust hierarchy is similar to the SSL Certificate infrastructure, where an entity marks its trust in another by \emph{signing} its certificate\footnote{Which is nothing more than a public key with additional metadata.}. However, DNSSEC theoretically only has one single top-authority\footnote{The use of TAR's should remain temporary, as in an ideal setup DNSSEC could work without them.}, while the SSL Certificate hierarchy disposes of many.
+DNSSEC's trust hierarchy is similar to the SSL Certificate infrastructure, where an entity marks its trust in another by \emph{signing} its certificate\footnote{Which is nothing more than a public key with additional metadata.}. However, DNSSEC theoretically only has one single top-authority, while the SSL Certificate hierarchy disposes of many.
 
 \begin{figure*}
 \center
@@ -184,12 +182,10 @@ additional query for keys when a new DNS request arrives. The
 statically configured TAR may automatically poll keys asynchronously,
 or may be just a bunch of manually configured trusted keys. As an
 example of a statically configured TAR, we have
-Vantages\footnote{\url{http://www.vantage-points.org/}}, an addition
-%% TODO what does this "plugin" do exactly?
-to a standard resolver, \cite{Osterweil09} which can poll keys from
-different locations such as web pages, but also also other
-vantage-enabled resolvers. Of course, the operator may also choose to
-add trusted keys manually.
+Vantages\footnote{\url{http://www.vantage-points.org/}}, a standalone
+daemon, \cite{Osterweil09} which can poll keys from different
+locations such as web pages, but also from other vantage resolvers. Of
+course, the operator may also choose to add trusted keys manually.
 
 \section{Operations\wbjp}
 This section covers the issues and quirks related to the management of DNSSEC.
@@ -311,8 +307,6 @@ zone. While using the web-interface is certainly cumbersome when
 having to deal with rollovers for a large number of domains, any major
 provider may become a SWITCH Partner and can then switch over to EPP
 which solves this issue.
-
-%% TODO add part about computation
 
 \paragraph{Cost} DNSSEC secure delegation is currently provided by
 SWITCH with no additional cost to normal DNS delegation.
