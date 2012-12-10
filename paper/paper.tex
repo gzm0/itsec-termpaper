@@ -16,6 +16,7 @@
 
 \newcommand{\wbjp}{\textsuperscript{JP}}
 \newcommand{\wbts}{\textsuperscript{TS}}
+\newcommand{\wbjpts}{\textsuperscript{JP,TS}}
 
 \begin{document}
 
@@ -320,13 +321,21 @@ which solves this issue.
 \paragraph{Cost} DNSSEC secure delegation is currently provided by
 SWITCH with no additional cost to normal DNS delegation.
 
-\section{Conclusion\wbjp\wbts}
-%TODO improve conclusion... :-D
-We have exposed the administrative challenges that arise with DNSSEC: while being far from trivial, these issues are not insurmountable, especially with regard to the gained benefits, and the modifications required from the three R's to their interaction process finally only consists in adaptations to already existing communication channels.
+\section{Conclusion\wbjpts}
+We have exposed the administrative challenges that arise with DNSSEC:
+while being far from trivial, these issues are not insurmountable,
+especially with regard to the gained benefits. Further, the
+modifications required from side the three Rs to their interaction
+process finally only consists in adaptations of already existing
+communication channels.
 
-From this point of view, DNSSEC's requirements and goals seem to be reachable.
+From this point of view, DNSSEC's requirements and goals seem to be
+reachable.
 
-SWITCH's case study showed that the existing issues can at least be harnessed at a TLD level. While a wider adoption is required to see if the infrastructure can indeed scale, the foundations that have been lain seem ready to take on the challenge.
+SWITCH's case study showed that the existing issues can be harnessed
+at least at a TLD level. While a wider adoption is required to see if
+the infrastructure can indeed scale, the foundations that have been
+lain seem ready to take on the challenge.
 
 \nocite{*}
 \bibliographystyle{abbrv}
