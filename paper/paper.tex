@@ -184,7 +184,7 @@ or may be just a bunch of manually configured trusted keys. As an
 example of a statically configured TAR, we have
 Vantages\footnote{\url{http://www.vantage-points.org/}}, a standalone
 daemon, \cite{Osterweil09} which can poll keys from different
-locations such as web pages, but also from other vantage resolvers. Of
+locations such as web pages, but also from other Vantage resolvers. Of
 course, the operator may also choose to add trusted keys manually.
 
 \section{Operations\wbjp}
@@ -209,9 +209,9 @@ These two entities can eventually be linked by the third one, the registrar: thi
   \label{fig:3Rs}
 \end{figure}
 
-In Switzerland, for example, SWITCH plays both the roles of the registry and a registrar: other registrars also exist but one can purchase a domain name directly from SWITCH. Registries will generally delegate part or whole of the namespace registration managing to registrars\footnote{For example, one can also buy a .ch domain from \url{http://gandi.net}}
+In Switzerland, for example, SWITCH plays both the roles of the registry and a registrar: other registrars also exist but one can purchase a domain name directly from SWITCH. Registries will generally delegate part or whole of the namespace registration management to registrars\footnote{For example, one can also buy a .ch domain from \url{http://gandi.net}}
 
-Registrants are also free to play the registry and registrar roles for their own sub-domains: groups, laboratories and associations within EPFL may apply for an \verb|epfl.ch.| sub-domain, like the LACAL and it's \verb|lacal.epfl.ch.| subdomain, for example.
+Registrants are also free to play the registry and registrar roles for their own sub-domains: groups, laboratories and associations within EPFL may apply for an \verb|epfl.ch.| sub-domain, like the LACAL and its \verb|lacal.epfl.ch.| subdomain, for example.
 
 The entities behind the three R's are the exact same whether DNSSEC is used or not, but DNSSEC modifies the relations among them: e.g., DNSKEY updates will now also require communication between the three R's, even if no practical information like DNS server addresses or billing data was actually updated.
 
@@ -221,13 +221,13 @@ Said parent should then serve a DS record containing the child zone's key signat
 
 Signing new zones will have different administrative implications depending on whether the parent zone is in the same administrative entity or not: e.g., \verb|www.epfl.ch.| is managed by the same entity as \verb|epfl.ch.|, so signing the \verb|www| sub-domain will imply a different (and very likely easier) procedure than signing \verb|epfl.ae|, EPFL's domain for its middle-east campus.
 
-Enabling DNSSEC for a zone not isn't a \emph{do once and forget} operation, but requires additional coordination among the three R's. Let us see what managerial consequences arise, depending on if we cross or stay within certain administrative boundaries.
+Enabling DNSSEC for a zone isn't a \emph{do once and forget} operation, but requires additional coordination among the three R's. Let us see what managerial consequences arise, depending on whether we cross or stay within certain administrative boundaries.
 
 \subsubsection{Single administrative domain}
 Basically, once an organisation has its main domain signed, it is relatively easy for any sub-entity within said organisation to get a sub-domain signed, and to coordinate any operations relative to DNSSEC like key rollover: staying with our EPFL example, it can suffice to contact the IT-department and discuss about the procedure with them\footnote{EPFL does not actually use DNSSEC, but we use the school as an example for the sake of simplicity.}. The bottom line is that it is relatively easy to handle the additional work and information updates required by DNSSEC as long as every concerned party lies within the same organisation.
 
 \subsubsection{Multiple administrative domain}
-DNSSEC's true challenges arise when we begin to consider several administrative entities (the three R's, mainly). As stated earlier, once the \verb|epfl.ch.| zone is signed it is easy for the school to sign \verb|www.epfl.ch.|. However, if the domain to be signed was \verb|epfl.ch.| or \verb|epfl.ae|, the school would have to deal with the entity or entities managing the TLD's (\verb|ch.|, managed by SWITCH, or \verb|ae.|\footnote{epfl.ae has been registered at 'Instra Corporation Pty Ltd', a registrar for the ae.}, respectively), which will have they own terms and conditions, which might very well vary among different registrars and TLD's. 	
+DNSSEC's true challenges arise when we begin to consider several administrative entities (the three R's, mainly). As stated earlier, once the \verb|epfl.ch.| zone is signed it is easy for the school to sign \verb|www.epfl.ch.|. However, if the domain to be signed was \verb|epfl.ch.| or \verb|epfl.ae|, the school would have to deal with the entity or entities managing the TLDs (\verb|ch.|, managed by SWITCH, or \verb|ae.|\footnote{epfl.ae has been registered at 'Instra Corporation Pty Ltd', a registrar for the ae.}, respectively), which will have their own terms and conditions, that might very well vary among different registrars and TLDs. 	
 
 While standard DNS can perfectly live with some of the temporary imprecisions caused by non-optimal interactions between the three R's, DNSSEC is far less tolerant to such jitter: typically, if the \verb|epfl.ch.| zone updates its keys but SWITCH fails to reflect this change fast enough in its records, query responses from \verb|epfl.ch.|'s DNS servers will appear as illegitimate whereas they perfectly are, and this will last as long as SWITCH's servers do not reflect the update.
 
@@ -249,8 +249,8 @@ While having the registrars also handle DNSSEC will ease managing key rollovers 
 If standard DNS simply provides zone transfers as a mean enabling such migrations, DNSSEC must be treated differently. Whether a new private-public key pair is generated or whether the existing pair is transferred, new hurdles are introduced:
 
 \begin{itemize}
-\item[-] The transferred private key is not totally \emph{private} anymore, as now both the old and new service provider know it;
-\item[-] Newly generated keys will require an update of the parent zone
+\item[--] The transferred private key is not totally \emph{private} anymore, as now both the old and new service provider know it;
+\item[--] Newly generated keys will require an update of the parent zone
 \end{itemize}
 
 In both cases,  this \emph{transfer} scenario will require a certain level of cooperation between two competing companies.
