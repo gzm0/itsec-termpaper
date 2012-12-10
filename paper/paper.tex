@@ -171,14 +171,14 @@ signature for the (hopefully matching) DNSKEY. The ISC inline TAR
 requires manual addition of keys to the repository.
 
 SecSpider \cite{secspider, Osterweil09} is another inline TAR, but
-uses a different approach for key validation: Rather then entering and
+uses a different approach for key validation: rather then entering and
 signing public keys manually, it randomly queries DNSKEY entries from
 different point in the world simultaneously and only enters it into
 the TAR, if all the received keys match. This makes spoofing of a key
 very difficult due to the spatial distribution and the
 unpredictability of the queries.
 
-Another type of TAR resides at the resolver: A statically configured
+Another type of TAR resides at the resolver: a statically configured
 TAR stores keys locally at the resolver and hence does not require to issue an
 additional query for keys when a new DNS request arrives. The
 statically configured TAR may automatically poll keys asynchronously,
