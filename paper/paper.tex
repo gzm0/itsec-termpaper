@@ -231,7 +231,7 @@ Signing new zones will have different administrative implications depending on w
 Enabling DNSSEC for a zone not being a \emph{do once and forget} operation, but instead requiring additional coordination among the three R's, let us see what managerial consequences arise, depending on if we cross or stay within certain administrative boundaries.
 
 \subsubsection{Single administrative domain}
-Basically, once an organization has its main domain signed, it is relatively easy for any sub-entity within said organization to get a sub-domain signed, and to coordinate any operations relative to DNSSEC like key rollover: staying with our EPFL example, it can suffice to contact the IT-department and discuss about the procedure with them\footnote{EPFL does not actually use DNSSEC, but we use the school as an example for the sake of simplicity.}. The bottom line is that it is relatively easy to handle the additional work and information updates required by DNSSEC as long as every concerned party lies within the same organization.
+Basically, once an organisation has its main domain signed, it is relatively easy for any sub-entity within said organisation to get a sub-domain signed, and to coordinate any operations relative to DNSSEC like key rollover: staying with our EPFL example, it can suffice to contact the IT-department and discuss about the procedure with them\footnote{EPFL does not actually use DNSSEC, but we use the school as an example for the sake of simplicity.}. The bottom line is that it is relatively easy to handle the additional work and information updates required by DNSSEC as long as every concerned party lies within the same organisation.
 
 \subsubsection{Multiple administrative domain}
 DNSSEC's true challenges arise when we begin to consider several administrative entities (the three R's, mainly). As stated earlier, once the \verb|epfl.ch.| zone is signed it is easy for the school to sign \verb|www.epfl.ch.|. However, if the domain to be signed was \verb|epfl.ch.| or \verb|epfl.ae|, the school would have to deal with the entity or entities managing the TLD's (\verb|ch.|, managed by SWITCH, or \verb|ae.|\footnote{epfl.ae has been registered at 'Instra Corporation Pty Ltd', a registrar for the ae.}, respectively), which will have they own terms and conditions, which might very well vary among different registrars and TLD's. 	
@@ -299,7 +299,7 @@ chain can hence fully be established and no separate TAR is required.
 \paragraph{Penetration} SWITCH states on their website that as of
 30. September 2012, 1'734'170 child-zones of \verb|ch.| have been
 registered\footnote{\url{https://www.nic.ch/reg/cm/wcm-page/statistics/index.html}}. Upon
-inquiry, SWITCH stated that there are around 370 secure delegations
+enquiry, SWITCH stated that there are around 370 secure delegations
 from the \verb|ch.| zone. This is less than $0.02\%$ penetration
 rate.
 
